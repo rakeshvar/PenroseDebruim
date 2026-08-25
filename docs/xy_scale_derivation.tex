@@ -1,0 +1,404 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage[margin=1in]{geometry}
+\usepackage{microtype}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Cov}{\operatorname{Cov}}
+
+\title{Coordinate Scaling for Raw PenroseDebruim Patches}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This note derives the exact part of the coordinate second moment that grows
+with \(K\) in the raw De Bruijn construction.  The result is
+\[
+  V_{\mathrm{index}}(K)
+  =\frac{25}{6}K(K+1)
+\]
+per Cartesian coordinate.  The population analysis assumes
+\(\E[x]=\E[y]=0\) by symmetry and therefore identifies variance with raw
+second moment; neither patch means nor finite-sample means are subtracted.
+A seeded \(100{,}000\)-condition sweep for every \(K=0,\ldots,5\) calibrates
+the bounded residual to the simple common value \(5.65\), giving
+\[
+  s_{xy}(K)
+  =
+  \sqrt{\frac{25}{6}K(K+1)+5.65}.
+\]
+The coefficient \(25/6\) is exact; \(5.65\) is empirical.  A sixth uniform
+input rotates all five grid directions through one half of their angular
+spacing.  This preserves the \(x/y\) second moment while making the wrapped
+output angle uniform on \([-\pi,\pi)\).
+\end{abstract}
+
+\section{Raw construction}
+
+Write
+\[
+  \gamma=(\gamma_0,\ldots,\gamma_4)\in[0,1)^5
+\]
+for the five phase values, and independently draw
+\[
+  \theta_{\mathrm{offset}}\sim\operatorname{Uniform}[0,1].
+\]
+Let \(K\) be a nonnegative integer and define the mapped angular offset
+\[
+  \theta_0
+  =\left(\theta_{\mathrm{offset}}-\frac12\right)\frac{\pi}{5}
+  \in\left[-\frac{\pi}{10},\frac{\pi}{10}\right].
+\]
+The five unit normals are
+\[
+  u_j =
+  \begin{pmatrix}\cos\theta_j\\\sin\theta_j\end{pmatrix},
+  \qquad
+  \theta_j=\frac{2\pi j}{5}+\theta_0,
+  \qquad j=0,\ldots,4.
+\]
+For phase vector \(\gamma\), family \(j\) contains lines
+\[
+  u_j^T x=n-\gamma_j,
+  \qquad k\in\{-K,\ldots,K\}.
+\]
+For every unordered pair \(i<j\), and every ordered pair of line indices
+\((k_i,k_j)\), one rhombus is emitted.  Hence
+\[
+  N(K)=\binom52(2K+1)^2
+  =10(2K+1)^2.
+\]
+This includes \(N(0)=10\).
+
+Let \(x=x_{ij}\) be the intersection of the selected lines.  The five region
+coordinates are
+\[
+  r_i=k_i,\qquad r_j=k_j,\qquad
+  r_m=\left\lceil u_m^T x+\gamma_m\right\rceil
+  \quad(m\ne i,j).
+\]
+The raw rhombus center is
+\begin{equation}
+  c_{ij}
+  =
+  \sum_{m=0}^4 r_m u_m
+  +\frac{u_i+u_j}{2}.
+  \label{eq:raw-center}
+\end{equation}
+No patch mean is subtracted from \eqref{eq:raw-center}.  In particular, a
+phase-dependent translation of the complete patch is part of the target.
+
+\section{Exact line-index variance}
+
+Let \(\mathbf{k}\) be uniform on the \(2K+1\) integers
+\(\{-K,\ldots,K\}\).  Symmetry gives \(\E\mathbf{k}=0\), and
+\[
+  \Var(\mathbf{k})
+  =\frac{1}{2K+1}
+    \sum_{k=-K}^{K}k^2
+  =\frac{K(K+1)}{3}.
+  \label{eq:index-variance}
+\]
+This identity is exact, including at \(K=0\).
+
+For a fixed family pair define
+\[
+  A_{ij}=
+  \begin{pmatrix}u_i^T\\u_j^T\end{pmatrix},
+  \qquad
+  q_{ij}=
+  \begin{pmatrix}k_i-\gamma_i\\k_j-\gamma_j\end{pmatrix}.
+\]
+Then
+\[
+  x_{ij}=A_{ij}^{-1}q_{ij}.
+\]
+Holding \(\gamma\) fixed and varying the independently enumerated indices,
+the index-induced covariance is
+\[
+  \Cov_{\mathrm{indices}}(x_{ij})
+  =\sigma_{\mathbf{k}}^2 A_{ij}^{-1}A_{ij}^{-T},
+  \qquad
+  \sigma_{\mathbf{k}}^2=\frac{K(K+1)}{3}.
+\]
+If \(\Delta_{ij}=\theta_j-\theta_i\), then
+\[
+  A_{ij}A_{ij}^T
+  =
+  \begin{pmatrix}
+    1&\cos\Delta_{ij}\\
+    \cos\Delta_{ij}&1
+  \end{pmatrix}
+\]
+and therefore
+\[
+  \operatorname{tr}
+  \left(A_{ij}^{-1}A_{ij}^{-T}\right)
+  =2\csc^2\Delta_{ij}.
+\]
+After using rotational balance to divide the trace equally between \(x\) and
+\(y\), the shared per-coordinate intersection contribution is
+\(\sigma_{\mathbf{k}}^2\csc^2\Delta_{ij}\).
+
+\section{Average over the ten family pairs}
+
+Five unordered pairs have separation \(72^\circ\) modulo \(180^\circ\), and
+five have separation \(144^\circ\), whose squared sine equals that of
+\(36^\circ\).  Consequently
+\begin{align*}
+  \frac1{10}\sum_{i<j}\csc^2\Delta_{ij}
+  &=
+  \frac12\left(\csc^2 72^\circ+\csc^2 36^\circ\right)\\
+  &=
+  \frac12\left(
+    \frac{8}{5+\sqrt5}+\frac{8}{5-\sqrt5}
+  \right)
+  =2,
+\end{align*}
+where
+\[
+  \sin^2 72^\circ=\frac{5+\sqrt5}{8},
+  \qquad
+  \sin^2 36^\circ=\frac{5-\sqrt5}{8}.
+\]
+Thus the pair-averaged intersection variance contributed by the line indices
+is exactly
+\[
+  2\sigma_{\mathbf{k}}^2
+  =\frac{2}{3}K(K+1)
+\]
+per coordinate.
+
+\section{The dual-projection factor}
+
+The five normals form a unit-norm tight frame:
+\begin{equation}
+  \sum_{m=0}^4u_m u_m^T=\frac52 I_2.
+  \label{eq:tight-frame}
+\end{equation}
+This follows by expanding the matrix entries and observing that the sums of
+\(\cos 2\theta_m\) and \(\sin 2\theta_m\) vanish.  Hence
+\[
+  \sum_{m=0}^4(u_m^Tx)u_m=\frac52x.
+\]
+The unquantized dual projection therefore multiplies distances by \(5/2\)
+and coordinate variances by \(25/4\).  Its exact line-index contribution is
+\begin{equation}
+  V_{\mathrm{index}}(K)
+  =
+  \frac{25}{4}\,
+  \frac{2}{3}K(K+1)
+  =
+  \boxed{\frac{25}{6}K(K+1)}.
+  \label{eq:leading}
+\end{equation}
+
+\section{Exact decomposition of the bounded terms}
+
+For each non-intersecting family define the ceiling remainder
+\[
+  \delta_m
+  =
+  \left\lceil u_m^Tx+\gamma_m\right\rceil
+  -(u_m^Tx+\gamma_m),
+  \qquad 0\le\delta_m<1
+\]
+up to the immaterial endpoint convention.  For the intersecting families,
+the line equations give
+\[
+  r_i=u_i^Tx+\gamma_i,\qquad
+  r_j=u_j^Tx+\gamma_j.
+\]
+Substituting these identities into \eqref{eq:raw-center} and applying
+\eqref{eq:tight-frame} yields the exact decomposition
+\begin{equation}
+  c_{ij}
+  =
+  \frac52x_{ij}
+  +\underbrace{\sum_{m=0}^4\gamma_m u_m}_{G(\gamma)}
+  +\underbrace{\sum_{m\ne i,j}\delta_m u_m}_{Q_{ij}}
+  +\frac{u_i+u_j}{2}.
+  \label{eq:decomposition}
+\end{equation}
+The first term contains the exact growing contribution
+\eqref{eq:leading}.  The remaining terms are bounded for fixed phases, but
+bounded does not mean variance-free or independent:
+\begin{itemize}
+  \item \(G(\gamma)\) translates the raw patch as the phases change;
+  \item each \(\delta_m\) is a sawtooth function of the intersection and
+    is correlated with \(x_{ij}\);
+  \item the set of omitted indices in \(Q_{ij}\) depends on the family pair;
+  \item the half-diagonal \((u_i+u_j)/2\) is pair-dependent; and
+  \item cross-covariances among all terms in \eqref{eq:decomposition}
+    contribute to the total coordinate variance.
+\end{itemize}
+
+\section{Population moments and finite-sample estimators}
+
+Let \(C=(X,Y)\) be the center obtained by first drawing
+\(\Gamma\sim\operatorname{Uniform}([0,1)^5)\) and then selecting one tile
+uniformly from its complete raw patch.  The population analysis adopts the
+fivefold-symmetry identities
+\[
+  \E[X]=\E[Y]=0.
+\]
+It follows that
+\[
+  \Var(X)=\E[X^2],\qquad
+  \Var(Y)=\E[Y^2],
+\]
+and the shared population scale is defined from the pooled raw second moment:
+\begin{equation}
+  s_{xy}^2(K)
+  =
+  \frac{\E[X^2]+\E[Y^2]}{2}.
+  \label{eq:pooled-second-moment}
+\end{equation}
+Neither a generated patch mean nor a finite Monte Carlo sample mean is
+subtracted in \eqref{eq:pooled-second-moment}.
+
+For auditability, the sweep also records centered empirical quantities.  With
+\(M\) observed tiles,
+\[
+  \bar x=\frac1M\sum_{m=1}^M x_m,\qquad
+  v_x=\frac1M\sum_{m=1}^M(x_m-\bar x)^2,\qquad
+  q_x=\frac1M\sum_{m=1}^M x_m^2.
+\]
+The columns \texttt{variance\_x} and \texttt{sample\_variance\_x} use
+denominators \(M\) and \(M-1\), respectively; the same definitions apply to
+\(y\) and wrapped angle.  The pooled \(xy\) sample is the concatenation
+\((x_1,\ldots,x_M,y_1,\ldots,y_M)\).  Therefore
+\[
+  \overline{xy}
+  =\frac{\sum_m x_m+\sum_m y_m}{2M},
+  \qquad
+  q_{xy}
+  =\frac{\sum_m x_m^2+\sum_m y_m^2}{2M}.
+\]
+Its centered population and sample variances use denominators \(2M\) and
+\(2M-1\).  The pooled mean is retained as a diagnostic even though separate
+\(\bar x\) and \(\bar y\) are more geometrically informative.
+
+The observed \(x\)- and \(y\)-means are at most about \(7.0\times10^{-4}\) in
+absolute value.  Under the zero-population-mean symmetry assumption these are
+finite-sample estimation errors.  They are reported but are not used to
+center \(q_x\), \(q_y\), or \(q_{xy}\).
+
+\section{Raw second-moment sweep and residual fit}
+
+The reproducible sweep uses seed \(20260823\), \(100{,}000\) independent
+independent \((\gamma,\theta_{\mathrm{offset}})\) draws for each
+\(K=0,\ldots,5\), and every tile in every raw
+patch.
+Thus the tile observation count is
+\[
+  M=100{,}000\cdot10(2K+1)^2.
+\]
+The full statistics are stored in
+\texttt{tests/scaling/raw\_statistics.csv}.  The entries relevant to the
+coordinate scale are:
+\begin{center}
+\begin{tabular}{rrrr}
+\(K\)&\(q_{xy}\)&exact leading term&residual\\
+\hline
+0&5.653308993&0&5.653308993\\
+1&13.980624932&8.333333333&5.647291599\\
+2&30.645533604&25&5.645533604\\
+3&55.646613015&50&5.646613015\\
+4&88.978783742&83.333333333&5.645450409\\
+5&130.646957465&125&5.646957465
+\end{tabular}
+\end{center}
+Here ``residual'' means
+\[
+  R_K^{\mathrm{emp}}
+  =
+  q_{xy}-
+  \frac{25}{6}K(K+1).
+\]
+The exact analysis does not prove that this residual is constant.  Empirically,
+however, all six values lie close to \(5.65\).  The simplest calibrated model
+over the requested domain is a constant residual.  Its least-squares estimate
+in variance space is the arithmetic mean \(5.647525847\); rounding to three
+significant digits gives
+\[
+  R_{\mathrm{cal}}=5.65.
+\]
+This is deliberately not presented with spurious extra digits.  Combining it
+with \eqref{eq:leading} gives the operational formula
+\begin{equation}
+  \boxed{
+  s_{xy}(K)
+  =
+  \sqrt{\frac{25}{6}K(K+1)+5.65}
+  }.
+  \label{eq:scale}
+\end{equation}
+Its largest relative discrepancy from the six measured second-moment scales
+is approximately \(0.03\%\), at \(K=0\); for
+\(K=1,\ldots,5\) it is below \(0.01\%\).  Runtime code evaluates
+\eqref{eq:scale} directly and never reads the statistics CSV.
+
+\section{Wrapped angle statistics}
+
+The CSV angle columns refer to the raw generated angle wrapped into
+\([-\pi,\pi)\), in radians, before the training multiplier
+\(\sqrt3/\pi\) is applied.
+
+Under the requested equal-count assumption, the construction produces ten
+equally weighted directions separated by \(\pi/5\).  The new independent
+variable rotates all of those directions by
+\[
+  \theta_0\sim\operatorname{Uniform}
+  \left[-\frac{\pi}{10},\frac{\pi}{10}\right].
+\]
+The intervals swept by adjacent directions meet exactly at their endpoints.
+Their equally weighted union is therefore the uniform distribution on the
+whole wrapped circle:
+\[
+  \Theta\sim\operatorname{Uniform}[-\pi,\pi).
+\]
+Consequently,
+\[
+  \E[\Theta]=0,\qquad
+  \Var(\Theta)=\E[\Theta^2]=\frac{\pi^2}{3}.
+\]
+After training scaling, the second moment is multiplied by
+\[
+  \left(\frac{\sqrt3}{\pi}\right)^2=\frac3{\pi^2}.
+\]
+Thus scaled angle has exact unit second moment in the population.  The
+committed angle-histogram CSV divides
+\([-\pi,\pi)\) into twenty intervals of width \(\pi/10\); each interval has
+population probability \(1/20\).  Finite-sample counts and means fluctuate
+around \(5\%\) and zero, respectively.
+
+The global rotation also preserves \(\|c_{ij}\|^2=x^2+y^2\) for every tile.
+Therefore it does not change the pooled \(xy\) second moment or the scale
+derived in the preceding sections.
+
+\section{Status summary}
+
+\begin{itemize}
+  \item \(N(K)=10(2K+1)^2\) is exact.
+  \item The generator emits raw centers and never subtracts a patch mean.
+  \item Population \(x/y\) scaling uses raw second moments under
+    \(\E[X]=\E[Y]=0\).
+  \item The growing term \((25/6)K(K+1)\) is exact.
+  \item The common residual \(5.65\) is calibrated from the six seeded raw
+    sweeps and is not an analytic identity.
+  \item Runtime scale is \eqref{eq:scale}; the CSV is statistics only.
+  \item The sixth uniform input rotates all directions by
+    \([-\pi/10,\pi/10]\), making wrapped angle uniform with zero mean and
+    second moment \(\pi^2/3\).
+\end{itemize}
+
+\end{document}

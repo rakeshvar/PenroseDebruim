@@ -1,0 +1,37 @@
+data:
+  kmax: 1
+
+model:
+  d_model: 128
+  num_heads: 8
+  num_layers: 8
+  num_global_tokens: 4
+  dropout: 0.0
+
+train:
+  batch_size: 64
+  samples_per_epoch: 140000
+  num_epochs: 101
+  learning_rate: 0.001
+  weight_decay: 0.01
+  min_lr_factor: 0.1
+  grad_clip: 1.0
+  seed: 0
+  device: cuda
+  no_rotation: false
+
+sample:
+  n: 1
+  seed: 1
+  γ: null
+  θoffset: 0.5
+
+wandb:
+  enable: true
+  project: penrose-debruim
+  run_name: null
+  run_id: null
+
+output:
+  directory: outputs
+  resume: null

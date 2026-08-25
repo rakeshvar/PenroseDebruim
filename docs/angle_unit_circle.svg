@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="640" viewBox="0 0 640 640">
+  <rect width="640" height="640" fill="#ffffff"/>
+  <text x="320" y="34" text-anchor="middle" font-family="sans-serif" font-size="21" font-weight="600" fill="#111827">
+    Ten equally weighted angle directions
+  </text>
+  <text x="320" y="58" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#4b5563">
+    �  {�, 4�/5, &, 4�/5}
+  </text>
+
+  <circle cx="320" cy="320" r="220" fill="#f8fafc" stroke="#334155" stroke-width="3"/>
+  <line x1="80" y1="320" x2="560" y2="320" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="320" y1="80" x2="320" y2="560" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <g stroke="#2563eb" stroke-width="4" stroke-linecap="round">
+    <line x1="320" y1="320" x2="100" y2="320"/>
+    <line x1="320" y1="320" x2="142.016" y2="449.313"/>
+    <line x1="320" y1="320" x2="252.016" y2="529.232"/>
+    <line x1="320" y1="320" x2="387.984" y2="529.232"/>
+    <line x1="320" y1="320" x2="497.984" y2="449.313"/>
+    <line x1="320" y1="320" x2="540" y2="320"/>
+    <line x1="320" y1="320" x2="497.984" y2="190.687"/>
+    <line x1="320" y1="320" x2="387.984" y2="110.768"/>
+    <line x1="320" y1="320" x2="252.016" y2="110.768"/>
+    <line x1="320" y1="320" x2="142.016" y2="190.687"/>
+  </g>
+
+  <g fill="#f97316" stroke="#ffffff" stroke-width="2">
+    <circle cx="100" cy="320" r="7"/>
+    <circle cx="142.016" cy="449.313" r="7"/>
+    <circle cx="252.016" cy="529.232" r="7"/>
+    <circle cx="387.984" cy="529.232" r="7"/>
+    <circle cx="497.984" cy="449.313" r="7"/>
+    <circle cx="540" cy="320" r="7"/>
+    <circle cx="497.984" cy="190.687" r="7"/>
+    <circle cx="387.984" cy="110.768" r="7"/>
+    <circle cx="252.016" cy="110.768" r="7"/>
+    <circle cx="142.016" cy="190.687" r="7"/>
+  </g>
+
+  <circle cx="320" cy="320" r="13" fill="#111827"/>
+  <circle cx="320" cy="320" r="5" fill="#ffffff"/>
+
+  <g font-family="sans-serif" font-size="16" font-weight="600" fill="#111827">
+    <text x="70" y="326" text-anchor="middle">�</text>
+    <text x="111" y="474" text-anchor="middle">4�/5</text>
+    <text x="240" y="567" text-anchor="middle">3�/5</text>
+    <text x="400" y="567" text-anchor="middle">2�/5</text>
+    <text x="529" y="474" text-anchor="middle">�/5</text>
+    <text x="570" y="326" text-anchor="middle">0</text>
+    <text x="529" y="171" text-anchor="middle">�/5</text>
+    <text x="400" y="83" text-anchor="middle">2�/5</text>
+    <text x="240" y="83" text-anchor="middle">3�/5</text>
+    <text x="111" y="171" text-anchor="middle">4�/5</text>
+  </g>
+
+  <text x="320" y="620" text-anchor="middle" font-family="sans-serif" font-size="14" fill="#4b5563">
+    Each spoke has probability 1/10; the circular resultant is zero.
+  </text>
+</svg>

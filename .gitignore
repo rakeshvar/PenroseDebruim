@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+outputs/
+samples/
+wandb/
+docs/*.aux
+docs/*.log
