@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#14001F" />
+    <title>De Bruijn · Exact Algorithm vs. AI</title>
+  </head>
+  <body>
+    <main class="shell">
+      <header>
+        <div>
+          <p class="eyebrow">Penrose pentagrid study</p>
+          <h1>De Bruijn Algorithm <span> Exact vs. A.I.</span></h1>
+        </div>
+        <div class="legend" aria-label="Layer legend">
+          <span><i class="outline"></i> Exact Outline</span>
+          <span><i class="fill"></i> Neural Fill</span>
+        </div>
+      </header>
+
+      <div class="visualization">
+        <section class="stage">
+          <canvas id="tiling" aria-label="Animated exact and neural De Bruijn rhombi"></canvas>
+          <div id="loading" class="loading">Loading model…</div>
+          <div class="stage-status">
+            <span id="backend">backend · loading</span>
+            <span id="latency">— ms</span>
+          </div>
+        </section>
+        <aside class="sidebar">
+          <section class="side-controls" aria-label="Display and animation controls">
+            <button id="play" class="primary" type="button">Pause</button>
+            <label>
+              <span>speed</span>
+              <select id="speed">
+                <option value="0.125">⅛×</option>
+                <option value="0.25" selected>¼×</option>
+                <option value="0.5">½×</option>
+                <option value="1">1×</option>
+                <option value="2">2×</option>
+              </select>
+            </label>
+            <label>
+              <span>model</span>
+              <select id="model"></select>
+            </label>
+            <label>
+              <span>Rotate</span>
+              <select id="theta-mode">
+                <option value="moving" selected>Yes</option>
+                <option value="fixed">No</option>
+              </select>
+            </label>
+            <button id="randomize" type="button">Resample Phases</button>
+            <div class="checks">
+              <label class="check"><input id="show-exact" type="checkbox" checked /> Algorithm</label>
+              <label class="check"><input id="show-prediction" type="checkbox" checked /> Neural Net</label>
+              <label class="check"><input id="show-a-arcs" type="checkbox" checked /> A Arcs</label>
+              <label class="check"><input id="show-c-arcs" type="checkbox" /> C Arcs</label>
+            </div>
+          </section>
+          <section class="phase-plots" aria-label="Gamma phase-space plots">
+            <figure>
+              <figcaption><span>γ0 / γ1</span><output id="gamma01-value"></output></figcaption>
+              <canvas id="gamma01" aria-label="Gamma zero versus gamma one"></canvas>
+            </figure>
+            <figure>
+              <figcaption><span>γ2 / γ3</span><output id="gamma23-value"></output></figcaption>
+              <canvas id="gamma23" aria-label="Gamma two versus gamma three"></canvas>
+            </figure>
+          </section>
+        </aside>
+      </div>
+
+      <section class="controls time-controls" aria-label="Time control">
+        <label class="scrubber">
+          <span>time <output id="time-value">0.00</output></span>
+          <input id="time" type="range" min="0" max="62.831853" step="0.001" value="0" />
+        </label>
+      </section>
+
+    </main>
+    <script type="module" src="/src/app.js"></script>
+  </body>
+</html>

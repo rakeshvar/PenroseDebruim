@@ -4,5 +4,7 @@ __pycache__/
 outputs/
 samples/
 wandb/
+web/node_modules/
+web/dist/
 docs/*.aux
 docs/*.log

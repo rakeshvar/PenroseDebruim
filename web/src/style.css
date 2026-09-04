@@ -1,0 +1,285 @@
+:root {
+  color: #f8efff;
+  background: #0b0011;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-synthesis: none;
+  --bg: #14001f;
+  --purple: #5a189a;
+  --violet: #c77dff;
+  --mint: #72efdd;
+  --gold: #ffd166;
+  --ink: #f8efff;
+  --muted: #bfaaca;
+  --panel: rgb(34 6 48 / 0.88);
+  --line: rgb(248 239 255 / 0.16);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% -10%, rgb(90 24 154 / 0.38), transparent 35rem),
+    radial-gradient(circle at 90% 20%, rgb(114 239 221 / 0.08), transparent 28rem),
+    #0b0011;
+}
+
+button, select, input { font: inherit; }
+
+.shell {
+  width: min(1440px, 100%);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: clamp(16px, 2.5vw, 36px);
+  display: grid;
+  grid-template-rows: auto minmax(420px, 1fr) auto;
+  gap: 14px;
+}
+
+header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.eyebrow {
+  margin: 0 0 4px;
+  color: var(--mint);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2rem, 5vw, 4.4rem);
+  font-weight: 400;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+h1 span { color: var(--violet); }
+
+.legend {
+  display: flex;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.legend span { display: flex; align-items: center; gap: 7px; }
+.legend i { width: 18px; height: 12px; transform: skewX(-18deg); }
+.legend .outline { border: 1.5px solid var(--mint); }
+.legend .fill { background: var(--violet); border: 1px solid var(--ink); }
+
+.visualization {
+  min-height: 420px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: 8px;
+}
+
+.stage {
+  position: relative;
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--bg);
+  box-shadow: 0 24px 80px rgb(0 0 0 / 0.35), inset 0 0 80px rgb(90 24 154 / 0.1);
+}
+
+canvas { width: 100%; height: 100%; display: block; }
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--mint);
+  background: rgb(20 0 31 / 0.64);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  backdrop-filter: blur(2px);
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+
+.loading.hidden { opacity: 0; }
+.loading.error { color: var(--gold); }
+
+.stage-status {
+  position: absolute;
+  left: 12px;
+  bottom: 10px;
+  display: flex;
+  gap: 12px;
+  color: var(--muted);
+  font: 0.65rem ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.04em;
+}
+
+.controls {
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+}
+
+.controls {
+  padding: 12px;
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+
+.side-controls {
+  display: grid;
+  gap: 8px;
+}
+
+.side-controls button,
+.side-controls select {
+  width: 100%;
+}
+
+.side-controls label:not(.check) { display: grid; gap: 4px; }
+.controls label:not(.check) { display: grid; gap: 5px; }
+.controls label > span,
+.side-controls label > span {
+  color: var(--muted);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scrubber { flex: 1; min-width: 140px; }
+.scrubber span { display: flex; justify-content: space-between; }
+.time-controls { margin-right: 198px; }
+
+button, select {
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--ink);
+  background: rgb(248 239 255 / 0.06);
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+button:hover, select:hover { border-color: rgb(199 125 255 / 0.7); }
+button.primary { color: #14001f; background: var(--mint); border-color: var(--mint); font-weight: 800; }
+
+input[type="range"] { accent-color: var(--violet); }
+.check { display: flex; align-items: center; gap: 5px; min-height: 36px; color: var(--muted); font-size: 0.75rem; }
+.check input { accent-color: var(--mint); }
+.checks { display: grid; grid-template-columns: 1fr; gap: 0; }
+
+.sidebar {
+  min-width: 0;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgb(90 24 154 / 0.16), transparent 45%),
+    var(--panel);
+  box-shadow: inset 0 1px rgb(248 239 255 / 0.05);
+  backdrop-filter: blur(12px);
+}
+
+.phase-plots {
+  width: 126px;
+  display: grid;
+  gap: 6px;
+  align-self: end;
+  margin-top: auto;
+  margin-left: auto;
+  pointer-events: none;
+}
+
+.phase-plots figure {
+  width: 126px;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgb(20 0 31 / 0.82);
+  backdrop-filter: blur(5px);
+}
+
+.phase-plots figcaption {
+  height: 22px;
+  padding: 6px 7px 0;
+  display: flex;
+  justify-content: space-between;
+  color: var(--mint);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.phase-plots output {
+  color: var(--muted);
+  font: 0.5rem ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0;
+}
+
+.phase-plots canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+
+@media (max-width: 800px) {
+  .shell { grid-template-rows: auto minmax(390px, 62vh) auto; }
+  header { align-items: start; flex-direction: column; }
+}
+
+@media (max-width: 600px) {
+  .visualization {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    width: 100%;
+  }
+  .side-controls {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .checks {
+    grid-column: 1 / -1;
+  }
+  .phase-plots {
+    width: 100%;
+    margin-left: 0;
+    grid-template-columns: 1fr 1fr;
+  }
+  .phase-plots figure {
+    width: min(100%, 126px);
+    justify-self: end;
+  }
+  .phase-plots figure:first-child {
+    justify-self: start;
+  }
+  .time-controls { margin-right: 0; }
+}
+
+@media (max-width: 480px) {
+  .legend { flex-direction: column; gap: 5px; }
+  .phase-plots figure { width: 104px; }
+}

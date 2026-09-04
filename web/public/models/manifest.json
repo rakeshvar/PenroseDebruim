@@ -1,0 +1,54 @@
+{
+  "format": 1,
+  "input": {
+    "name": "condition",
+    "shape": [
+      1,
+      6
+    ]
+  },
+  "output": {
+    "name": "prediction",
+    "shape": [
+      1,
+      90,
+      4
+    ]
+  },
+  "models": [
+    {
+      "id": "debruim-k1-32x4",
+      "label": "32 \u00d7 4",
+      "file": "debruim-k1-32x4.onnx",
+      "epoch": 50,
+      "kmax": 1,
+      "tiles": 90,
+      "dModel": 32,
+      "layers": 4,
+      "heads": 4,
+      "globalTokens": 4,
+      "xyScale": 3.739429546512855,
+      "angleScale": 0.5513288954217921,
+      "bytes": 281574,
+      "sha256": "a29cfb4d69aea2a3df840275ca84f1aa37ac6eba0397ccb24d6cf483030e1427",
+      "maxParityError": 1.52587890625e-05
+    },
+    {
+      "id": "debruim-k1-256x16",
+      "label": "256 \u00d7 16",
+      "file": "debruim-k1-256x16.onnx",
+      "epoch": 196,
+      "kmax": 1,
+      "tiles": 90,
+      "dModel": 256,
+      "layers": 16,
+      "heads": 8,
+      "globalTokens": 4,
+      "xyScale": 3.739429546512855,
+      "angleScale": 0.5513288954217921,
+      "bytes": 51094156,
+      "sha256": "8f73759507ebe7bfd864637287121ac4c913e5482c833291f07d7f3cfaf7e5a6",
+      "maxParityError": 7.62939453125e-06
+    }
+  ]
+}
